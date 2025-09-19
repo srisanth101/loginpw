@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PW Unlocked Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: rotate 15s linear infinite;
+            pointer-events: none;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.3);
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 48px 16px 16px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: #f8fafc;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .otp-container {
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .otp-code {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 10px;
+            color: #6366f1;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 15px;
+            border-radius: 16px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #64748b;
+            font-size: 14px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .success-message {
+            text-align: center;
+            color: #10b981;
+            margin-top: 20px;
+            font-weight: 500;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .security-notice {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            color: #fecaca;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .security-notice i {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+
+        .countdown {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 20px;
+                border-radius: 20px;
+            }
+            
+            .logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            input, .btn {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h1>PW Unlocked Portal</h1>
+                <p class="subtitle">Enter your details to continue</p>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-container">
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="number">Phone Number</label>
+                    <div class="input-container">
+                        <input type="tel" id="number" placeholder="Enter your number" required>
+                        <div class="input-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="error-message" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> Only Srisanth with number 7672006017 is allowed to login
+                </div>
+
+                <button type="submit" class="btn">Generate OTP</button>
+            </form>
+
+            <div id="otp-section" class="otp-container" style="display: none;">
+                <p>Your OTP Code:</p>
+                <div class="otp-code" id="otp-code">------</div>
+                <div class="countdown" id="countdown">Auto-verifying in 3 seconds</div>
+            </div>
+
+            <div id="security-notice" class="security-notice" style="display: none;">
+                <p><i class="fas fa-shield-alt"></i> For your security, never share your OTP with anyone</p>
+            </div>
+
+            <div id="success-message" class="success-message" style="display: none;">
+                <i class="fas fa-check-circle"></i> OTP Verified Successfully!
+            </div>
+
+            <button id="proceed-btn" class="btn" style="display: none; margin-top: 20px;">
+                Proceed to Study Stark
+            </button>
+
+            <div class="footer">
+                Design by: K.G.Srisanth
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form');
+            const otpSection = document.getElementById('otp-section');
+            const otpCode = document.getElementById('otp-code');
+            const countdownEl = document.getElementById('countdown');
+            const proceedBtn = document.getElementById('proceed-btn');
+            const successMessage = document.getElementById('success-message');
+            const securityNotice = document.getElementById('security-notice');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Define the only allowed user
+            const allowedUser = {
+                name: "Srisanth",
+                number: "7672006017"
+            };
+            
+            // Generate random OTP
+            function generateOTP() {
+                return Math.floor(100000 + Math.random() * 900000);
+            }
+            
+            // Handle form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const number = document.getElementById('number').value;
+                
+                // Validate credentials
+                if (name !== allowedUser.name || number !== allowedUser.number) {
+                    errorMessage.style.display = 'block';
+                    setTimeout(() => {
+                        errorMessage.style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+                
+                if (name && number) {
+                    // Generate OTP
+                    const otp = generateOTP();
+                    
+                    // Show OTP section with animation
+                    loginForm.style.display = 'none';
+                    otpSection.style.display = 'block';
+                    securityNotice.style.display = 'block';
+                    
+                    // Animate OTP display
+                    let dots = 6;
+                    const animateOTP = setInterval(() => {
+                        if (dots > 0) {
+                            otpCode.textContent = '-'.repeat(dots);
+                            dots--;
+                        } else {
+                            clearInterval(animateOTP);
+                            otpCode.textContent = otp;
+                            
+                            // Start countdown
+                            let seconds = 3;
+                            const countdown = setInterval(() => {
+                                countdownEl.textContent = `Auto-verifying in ${seconds} seconds`;
+                                seconds--;
+                                
+                                if (seconds < 0) {
+                                    clearInterval(countdown);
+                                    verifyOTP();
+                                }
+                            }, 1000);
+                        }
+                    }, 100);
+                }
+            });
+            
+            // Verify OTP automatically
+            function verifyOTP() {
+                successMessage.style.display = 'block';
+                countdownEl.style.display = 'none';
+                proceedBtn.style.display = 'block';
+                
+                // Add checkmark animation to OTP
+                otpCode.innerHTML = `<span style="color: #10b981;">${otpCode.textContent}</span> <i class="fas fa-check-circle" style="color: #10b981;"></i>`;
+            }
+            
+            // Handle proceed button
+            proceedBtn.addEventListener('click', function() {
+                proceedBtn.disabled = true;
+                proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
+                
+                // Redirect to Study Stark
+                setTimeout(() => {
+                    window.location.href = 'https://study.stark.in';
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
