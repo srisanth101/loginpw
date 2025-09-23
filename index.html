@@ -512,7 +512,7 @@
             <div class="header-logo">
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDj-7hATBvyP8yglPY1xhL-cU4GP0nFkfTrk3soDPAZHI2JuwCsPLvTn2yjBrK8dxPwDSeH2dXrtLi3Ag8BjpXCT7dCkmRHmCB0iMphHTjq-4t6l2DIs6WCNVYMzZQW8UDm5GlcsZ2-oUeo0WzjX5ydURow14zx9g0gMOf0A-pZN48mEZyGbLgasIva98/s2048/Picsart_25-09-19_18-59-20-679.png" alt="Srisanth Portal Logo">
             </div>
-            <div class="header-title">Srisanth Portal</div>
+            <div class="header-title">PW Unlocked Portal</div>
         </div>
         <button class="logout-btn" id="header-logout-btn">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -622,9 +622,9 @@
             </button>
 
             <div class="connection-error" id="connection-error">
-                <h3><i class="fas fa-exclamation-triangle"></i> Connection Error</h3>
-                <p>The portal is currently unavailable. Please try again later.</p>
-                <button class="retry-btn" id="retry-btn">Retry Connection</button>
+                <h3><i class="fas fa-exclamation-triangle"></i> Portal Opening Issue</h3>
+                <p>The portal couldn't be opened automatically. Please click the button below to try again.</p>
+                <button class="retry-btn" id="retry-btn">Open Portal</button>
             </div>
 
             <div class="footer">
@@ -670,7 +670,7 @@
             
             // Define allowed users
             const allowedUsers = [
-                { name: "Akanksha", id: "SH2503" },
+               { name: "Akanksha", id: "SH2503" },
 { name: "Geethika", id: "SH2505" },
 { name: "Preeti Kumari Meena", id: "SH2506" },
 { name: "Jeevan", id: "SH2507" },
@@ -706,11 +706,11 @@
 { name: "Neeraj", id: "SH2537" },
 { name: "Aaron", id: "SH2538" },
 { name: "N Karthik", id: "SH2539" }
-
             ];
             
             let currentUser = null;
             let currentStep = 1;
+            let portalWindow = null;
             
             // Check if user is already logged in
             if (localStorage.getItem('isLoggedIn') === 'true') {
@@ -814,38 +814,50 @@
                 localStorage.setItem('userName', currentUser.name);
                 localStorage.setItem('userId', currentUser.id);
                 
-                // Try to connect to the portal
-                checkPortalConnection();
+                // Try to open the portal directly
+                openPortal();
             }
             
-            // Check if portal is accessible
-            function checkPortalConnection() {
+            // Open the portal
+            function openPortal() {
                 const portalUrl = "https://streamfiles.eu.org/";
                 
-                // Use fetch API with CORS mode to check connection
-                fetch(portalUrl, { 
-                    method: 'HEAD',
-                    mode: 'no-cors'
-                })
-                .then(() => {
-                    // Connection successful, open in new tab
-                    window.open(portalUrl, '_blank');
-                    loadingOverlay.style.display = 'none';
-                })
-                .catch(() => {
-                    // Connection failed
-                    loadingOverlay.style.display = 'none';
-                    connectionError.style.display = 'block';
-                    proceedBtn.disabled = false;
-                    proceedBtn.innerHTML = 'Proceed to Portal';
-                });
+                try {
+                    // Try to open the portal in a new tab
+                    portalWindow = window.open(portalUrl, '_blank');
+                    
+                    // Check if the window was blocked
+                    if (!portalWindow || portalWindow.closed || typeof portalWindow.closed == 'undefined') {
+                        // Popup was blocked, show error message
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                            connectionError.style.display = 'block';
+                            proceedBtn.disabled = false;
+                            proceedBtn.innerHTML = 'Proceed to Portal';
+                        }, 1000);
+                    } else {
+                        // Portal opened successfully
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                        }, 1500);
+                    }
+                } catch (error) {
+                    // Error opening portal
+                    console.error("Error opening portal:", error);
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        connectionError.style.display = 'block';
+                        proceedBtn.disabled = false;
+                        proceedBtn.innerHTML = 'Proceed to Portal';
+                    }, 1000);
+                }
             }
             
             // Retry connection button
             retryBtn.addEventListener('click', function() {
                 connectionError.style.display = 'none';
                 loadingOverlay.style.display = 'flex';
-                checkPortalConnection();
+                openPortal();
             });
             
             // Update step indicator
@@ -898,6 +910,11 @@
                 localStorage.removeItem('isLoggedIn');
                 localStorage.removeItem('userName');
                 localStorage.removeItem('userId');
+                
+                // Close portal window if it's open
+                if (portalWindow && !portalWindow.closed) {
+                    portalWindow.close();
+                }
                 
                 // Reset the UI
                 loginContainer.style.display = 'block';
