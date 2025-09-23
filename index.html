@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PW Unlocked Portal</title>
+    <title>Srisanth Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -18,15 +18,85 @@
             color: #f8fafc;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            height: 70px;
+            display: none;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            overflow: hidden;
+        }
+
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
         }
 
         .container {
             width: 100%;
             max-width: 420px;
             margin: 0 auto;
+            padding: 90px 20px 30px;
+            transition: all 0.3s ease;
         }
 
         .card {
@@ -34,7 +104,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
@@ -56,29 +126,30 @@
 
         .logo-container {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             animation: slideDown 0.6s ease-out;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            width: 100px;
+            height: 100px;
             border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0 auto 15px;
-            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.3);
+            overflow: hidden;
         }
 
-        .logo i {
-            font-size: 36px;
-            color: white;
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             letter-spacing: -0.5px;
             margin-bottom: 5px;
@@ -86,12 +157,12 @@
 
         .subtitle {
             color: #94a3b8;
-            font-size: 16px;
-            margin-bottom: 30px;
+            font-size: 14px;
+            margin-bottom: 25px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             animation: slideUp 0.6s ease-out;
         }
 
@@ -107,18 +178,18 @@
             position: relative;
         }
 
-        input {
+        input, select {
             width: 100%;
-            padding: 16px 48px 16px 16px;
+            padding: 14px 42px 14px 14px;
             background: rgba(15, 23, 42, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            border-radius: 14px;
             color: #f8fafc;
             font-size: 16px;
             transition: all 0.3s ease;
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
@@ -126,7 +197,7 @@
 
         .input-icon {
             position: absolute;
-            right: 16px;
+            right: 14px;
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
@@ -134,11 +205,11 @@
 
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -163,60 +234,31 @@
             box-shadow: none;
         }
 
-        .otp-container {
-            text-align: center;
-            margin-top: 20px;
-            animation: fadeIn 0.8s ease-out;
+        .btn-logout {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.3);
+            margin-top: 15px;
         }
 
-        .otp-code {
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: 10px;
-            color: #6366f1;
-            background: rgba(15, 23, 42, 0.5);
-            padding: 15px;
-            border-radius: 16px;
-            margin: 15px 0;
-            font-family: monospace;
+        .btn-logout:hover {
+            box-shadow: 0 15px 25px -5px rgba(239, 68, 68, 0.4);
         }
 
         .footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 25px;
             color: #64748b;
-            font-size: 14px;
+            font-size: 13px;
             animation: slideUp 0.6s ease-out;
         }
 
         .success-message {
             text-align: center;
             color: #10b981;
-            margin-top: 20px;
+            margin-top: 18px;
             font-weight: 500;
             animation: fadeIn 0.8s ease-out;
-        }
-
-        .security-notice {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: center;
-            color: #fecaca;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .security-notice i {
-            font-size: 20px;
-            margin-right: 8px;
-        }
-
-        .countdown {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-top: 10px;
+            display: none;
         }
 
         .error-message {
@@ -225,6 +267,163 @@
             margin-top: 8px;
             text-align: center;
             display: none;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #cbd5e1;
+            display: none;
+        }
+
+        .welcome-message span {
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            flex-direction: column;
+            color: white;
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top: 5px solid #6366f1;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .connection-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .connection-error h3 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+
+        .connection-error p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .retry-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background: #dc2626;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #475569;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: #6366f1;
+        }
+
+        .step-line {
+            height: 2px;
+            background: #475569;
+            flex: 1;
+            margin-top: 14px;
+        }
+
+        .step-line.active {
+            background: #6366f1;
+        }
+
+        .user-info {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .user-info-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .user-detail {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .user-label {
+            color: #94a3b8;
+        }
+
+        .user-value {
+            color: #f8fafc;
+            font-weight: 500;
+        }
+
+        .user-select-container {
+            margin-bottom: 18px;
+            animation: slideUp 0.6s ease-out;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes fadeIn {
@@ -249,42 +448,128 @@
 
         /* Mobile responsiveness */
         @media (max-width: 480px) {
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .header-title {
+                font-size: 16px;
+            }
+            
+            .logout-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
             .card {
-                padding: 25px 20px;
+                padding: 20px 15px;
                 border-radius: 20px;
             }
             
             .logo {
-                width: 70px;
-                height: 70px;
+                width: 80px;
+                height: 80px;
+                border-radius: 15px;
             }
             
             h1 {
-                font-size: 24px;
+                font-size: 22px;
             }
             
-            input, .btn {
-                padding: 14px;
+            input, .btn, select {
+                padding: 12px;
+            }
+            
+            .container {
+                padding: 80px 15px 20px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .header-title {
+                font-size: 14px;
+            }
+            
+            .logout-btn {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .subtitle {
+                font-size: 13px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header" id="header">
+        <div class="header-left">
+            <div class="header-logo">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDj-7hATBvyP8yglPY1xhL-cU4GP0nFkfTrk3soDPAZHI2JuwCsPLvTn2yjBrK8dxPwDSeH2dXrtLi3Ag8BjpXCT7dCkmRHmCB0iMphHTjq-4t6l2DIs6WCNVYMzZQW8UDm5GlcsZ2-oUeo0WzjX5ydURow14zx9g0gMOf0A-pZN48mEZyGbLgasIva98/s2048/Picsart_25-09-19_18-59-20-679.png" alt="Srisanth Portal Logo">
+            </div>
+            <div class="header-title">Srisanth Portal</div>
+        </div>
+        <button class="logout-btn" id="header-logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <div class="container" id="login-container">
         <div class="card">
             <div class="logo-container">
                 <div class="logo">
-                    <i class="fas fa-lock"></i>
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDj-7hATBvyP8yglPY1xhL-cU4GP0nFkfTrk3soDPAZHI2JuwCsPLvTn2yjBrK8dxPwDSeH2dXrtLi3Ag8BjpXCT7dCkmRHmCB0iMphHTjq-4t6l2DIs6WCNVYMzZQW8UDm5GlcsZ2-oUeo0WzjX5ydURow14zx9g0gMOf0A-pZN48mEZyGbLgasIva98/s2048/Picsart_25-09-19_18-59-20-679.png" alt="Srisanth Portal Logo">
                 </div>
-                <h1>PW Unlocked Portal</h1>
-                <p class="subtitle">Enter your details to continue</p>
+                <h1>Srisanth Portal</h1>
+                <p class="subtitle">Enter access key to continue</p>
             </div>
 
-            <form id="login-form">
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step-line"></div>
+                <div class="step">2</div>
+                <div class="step-line"></div>
+                <div class="step">3</div>
+            </div>
+
+            <form id="access-key-form">
+                <div class="form-group">
+                    <label for="access-key">Access Key</label>
+                    <div class="input-container">
+                        <input type="password" id="access-key" placeholder="Enter access key" required>
+                        <div class="input-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="verify-key-btn">
+                    Verify Key
+                </button>
+            </form>
+
+            <div class="user-select-container" id="user-select-container">
+                <label for="user-select">Select Your Name</label>
+                <div class="input-container">
+                    <select id="user-select" required>
+                        <option value="" disabled selected>Select your name</option>
+                    </select>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+
+            <form id="user-form" style="display: none;">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <div class="input-container">
-                        <input type="text" id="name" placeholder="Enter your name" required>
+                        <input type="text" id="name" placeholder="Enter your full name" required readonly>
                         <div class="input-icon">
                             <i class="fas fa-user"></i>
                         </div>
@@ -292,39 +577,55 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="number">Phone Number</label>
+                    <label for="user-id">User ID</label>
                     <div class="input-container">
-                        <input type="tel" id="number" placeholder="Enter your number" required>
+                        <input type="text" id="user-id" placeholder="Enter your user ID" required readonly>
                         <div class="input-icon">
-                            <i class="fas fa-phone"></i>
+                            <i class="fas fa-id-card"></i>
                         </div>
                     </div>
                 </div>
 
-                <div id="error-message" class="error-message">
-                    <i class="fas fa-exclamation-circle"></i> Please Entre Correct Name & Password
-                </div>
-
-                <button type="submit" class="btn">Generate OTP</button>
+                <button type="submit" class="btn" id="continue-btn">
+                    Continue to Portal
+                </button>
             </form>
 
-            <div id="otp-section" class="otp-container" style="display: none;">
-                <p>Your OTP Code:</p>
-                <div class="otp-code" id="otp-code">------</div>
-                <div class="countdown" id="countdown">Auto-verifying in 3 seconds</div>
+            <div id="user-info" class="user-info" style="display: none;">
+                <div class="user-info-title">Your Information</div>
+                <div class="user-details">
+                    <div class="user-detail">
+                        <span class="user-label">Name:</span>
+                        <span class="user-value" id="display-name"></span>
+                    </div>
+                    <div class="user-detail">
+                        <span class="user-label">User ID:</span>
+                        <span class="user-value" id="display-user-id"></span>
+                    </div>
+                </div>
             </div>
 
-            <div id="security-notice" class="security-notice" style="display: none;">
-                <p><i class="fas fa-shield-alt"></i> For your security, never share your OTP with anyone</p>
+            <div id="welcome-message" class="welcome-message">
+                Welcome, <span id="user-name-display"></span>!
             </div>
 
-            <div id="success-message" class="success-message" style="display: none;">
-                <i class="fas fa-check-circle"></i> OTP Verified Successfully!
+            <div id="success-message" class="success-message">
+                <i class="fas fa-check-circle"></i> Login Successful!
             </div>
 
             <button id="proceed-btn" class="btn" style="display: none; margin-top: 20px;">
-                Proceed PW Portal
+                Proceed to Portal
             </button>
+
+            <button id="logout-btn" class="btn btn-logout" style="display: none; margin-top: 10px;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+
+            <div class="connection-error" id="connection-error">
+                <h3><i class="fas fa-exclamation-triangle"></i> Connection Error</h3>
+                <p>The portal is currently unavailable. Please try again later.</p>
+                <button class="retry-btn" id="retry-btn">Retry Connection</button>
+            </div>
 
             <div class="footer">
                 Design by: K.G.Srisanth
@@ -332,101 +633,258 @@
         </div>
     </div>
 
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>Redirecting to Portal...</p>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const loginForm = document.getElementById('login-form');
-            const otpSection = document.getElementById('otp-section');
-            const otpCode = document.getElementById('otp-code');
-            const countdownEl = document.getElementById('countdown');
+            const accessKeyForm = document.getElementById('access-key-form');
+            const verifyKeyBtn = document.getElementById('verify-key-btn');
+            const userSelectContainer = document.getElementById('user-select-container');
+            const userSelect = document.getElementById('user-select');
+            const userForm = document.getElementById('user-form');
+            const nameInput = document.getElementById('name');
+            const userIdInput = document.getElementById('user-id');
+            const continueBtn = document.getElementById('continue-btn');
+            const userInfo = document.getElementById('user-info');
+            const displayName = document.getElementById('display-name');
+            const displayUserId = document.getElementById('display-user-id');
+            const welcomeMessage = document.getElementById('welcome-message');
+            const userNameDisplay = document.getElementById('user-name-display');
             const proceedBtn = document.getElementById('proceed-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const headerLogoutBtn = document.getElementById('header-logout-btn');
             const successMessage = document.getElementById('success-message');
-            const securityNotice = document.getElementById('security-notice');
-            const errorMessage = document.getElementById('error-message');
+            const loginContainer = document.getElementById('login-container');
+            const header = document.getElementById('header');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const connectionError = document.getElementById('connection-error');
+            const retryBtn = document.getElementById('retry-btn');
+            const steps = document.querySelectorAll('.step');
+            const stepLines = document.querySelectorAll('.step-line');
             
-            // Define the only allowed user
-            const allowedUser = {
-                name: "Srisanth",
-                number: "7672006017",
-                name: "Adhivishnu",
-                number: "9032226055"
-            };
+            // Access key
+            const accessKey = "kvmlk11a";
             
-            // Generate random OTP
-            function generateOTP() {
-                return Math.floor(100000 + Math.random() * 900000);
+            // Define allowed users
+            const allowedUsers = [
+                { name: "Srisanth", id: "SH2527" },
+                { name: "Adhivishnu", id: "SH2527" },
+                { name: "Nidhi", id: "SH2527" }
+            ];
+            
+            let currentUser = null;
+            let currentStep = 1;
+            
+            // Check if user is already logged in
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                redirectToPortal();
             }
             
-            // Handle form submission
-            loginForm.addEventListener('submit', function(e) {
+            // Populate user select dropdown
+            allowedUsers.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.name;
+                option.textContent = user.name;
+                userSelect.appendChild(option);
+            });
+            
+            // Access key form submission
+            accessKeyForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const name = document.getElementById('name').value;
-                const number = document.getElementById('number').value;
+                const key = document.getElementById('access-key').value.trim();
                 
-                // Validate credentials
-                if (name !== allowedUser.name || number !== allowedUser.number) {
-                    errorMessage.style.display = 'block';
-                    setTimeout(() => {
-                        errorMessage.style.display = 'none';
-                    }, 3000);
-                    return;
-                }
-                
-                if (name && number) {
-                    // Generate OTP
-                    const otp = generateOTP();
-                    
-                    // Show OTP section with animation
-                    loginForm.style.display = 'none';
-                    otpSection.style.display = 'block';
-                    securityNotice.style.display = 'block';
-                    
-                    // Animate OTP display
-                    let dots = 6;
-                    const animateOTP = setInterval(() => {
-                        if (dots > 0) {
-                            otpCode.textContent = '-'.repeat(dots);
-                            dots--;
-                        } else {
-                            clearInterval(animateOTP);
-                            otpCode.textContent = otp;
-                            
-                            // Start countdown
-                            let seconds = 3;
-                            const countdown = setInterval(() => {
-                                countdownEl.textContent = `Auto-verifying in ${seconds} seconds`;
-                                seconds--;
-                                
-                                if (seconds < 0) {
-                                    clearInterval(countdown);
-                                    verifyOTP();
-                                }
-                            }, 1000);
-                        }
-                    }, 100);
+                if (key === accessKey) {
+                    // Key is correct, show user selection
+                    accessKeyForm.style.display = 'none';
+                    userSelectContainer.style.display = 'block';
+                    updateStepIndicator(2);
+                } else {
+                    // Show error message
+                    showError("Invalid access key");
                 }
             });
             
-            // Verify OTP automatically
-            function verifyOTP() {
-                successMessage.style.display = 'block';
-                countdownEl.style.display = 'none';
-                proceedBtn.style.display = 'block';
+            // User selection change
+            userSelect.addEventListener('change', function() {
+                const selectedName = this.value;
+                const selectedUser = allowedUsers.find(user => user.name === selectedName);
                 
-                // Add checkmark animation to OTP
-                otpCode.innerHTML = `<span style="color: #10b981;">${otpCode.textContent}</span> <i class="fas fa-check-circle" style="color: #10b981;"></i>`;
-            }
+                if (selectedUser) {
+                    // Auto-fill the user form
+                    nameInput.value = selectedUser.name;
+                    userIdInput.value = selectedUser.id;
+                    
+                    // Show the user form
+                    userSelectContainer.style.display = 'none';
+                    userForm.style.display = 'block';
+                }
+            });
+            
+            // User form submission
+            userForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = nameInput.value.trim();
+                const userId = userIdInput.value.trim();
+                
+                // Validate user
+                const isValidUser = allowedUsers.some(user => 
+                    user.name.toLowerCase() === name.toLowerCase() && 
+                    user.id === userId
+                );
+                
+                if (isValidUser) {
+                    currentUser = {
+                        name: name,
+                        id: userId
+                    };
+                    
+                    // Show user info and proceed button
+                    userForm.style.display = 'none';
+                    userInfo.style.display = 'block';
+                    displayName.textContent = currentUser.name;
+                    displayUserId.textContent = currentUser.id;
+                    proceedBtn.style.display = 'block';
+                    logoutBtn.style.display = 'block';
+                    header.style.display = 'flex';
+                    welcomeMessage.style.display = 'block';
+                    userNameDisplay.textContent = currentUser.name;
+                    successMessage.style.display = 'block';
+                    updateStepIndicator(3);
+                } else {
+                    // Show error message
+                    showError("Invalid name or user ID");
+                }
+            });
             
             // Handle proceed button
             proceedBtn.addEventListener('click', function() {
                 proceedBtn.disabled = true;
                 proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
                 
-                // Redirect to Study Stark
-                setTimeout(() => {
-                    window.location.href = 'https://studystark.site/';
-                }, 1500);
+                // Try to redirect to portal
+                redirectToPortal();
             });
+            
+            // Redirect to portal
+            function redirectToPortal() {
+                // Show loading overlay
+                loadingOverlay.style.display = 'flex';
+                
+                // Set login status in localStorage
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userId', currentUser.id);
+                
+                // Try to connect to the portal
+                checkPortalConnection();
+            }
+            
+            // Check if portal is accessible
+            function checkPortalConnection() {
+                const portalUrl = "https://streamfiles.eu.org/";
+                
+                // Use fetch API with CORS mode to check connection
+                fetch(portalUrl, { 
+                    method: 'HEAD',
+                    mode: 'no-cors'
+                })
+                .then(() => {
+                    // Connection successful, open in new tab
+                    window.open(portalUrl, '_blank');
+                    loadingOverlay.style.display = 'none';
+                })
+                .catch(() => {
+                    // Connection failed
+                    loadingOverlay.style.display = 'none';
+                    connectionError.style.display = 'block';
+                    proceedBtn.disabled = false;
+                    proceedBtn.innerHTML = 'Proceed to Portal';
+                });
+            }
+            
+            // Retry connection button
+            retryBtn.addEventListener('click', function() {
+                connectionError.style.display = 'none';
+                loadingOverlay.style.display = 'flex';
+                checkPortalConnection();
+            });
+            
+            // Update step indicator
+            function updateStepIndicator(step) {
+                currentStep = step;
+                
+                steps.forEach((s, index) => {
+                    if (index + 1 <= step) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+                
+                stepLines.forEach((line, index) => {
+                    if (index + 1 < step) {
+                        line.classList.add('active');
+                    } else {
+                        line.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Handle logout button in login screen
+            logoutBtn.addEventListener('click', function() {
+                logout();
+            });
+            
+            // Handle logout button in header
+            headerLogoutBtn.addEventListener('click', function() {
+                logout();
+            });
+            
+            // Show error message
+            function showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+                errorDiv.style.display = 'block';
+                
+                document.querySelector('.card').appendChild(errorDiv);
+                
+                setTimeout(() => {
+                    errorDiv.remove();
+                }, 3000);
+            }
+            
+            // Logout function
+            function logout() {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userId');
+                
+                // Reset the UI
+                loginContainer.style.display = 'block';
+                header.style.display = 'none';
+                accessKeyForm.style.display = 'block';
+                accessKeyForm.reset();
+                userSelectContainer.style.display = 'none';
+                userSelect.selectedIndex = 0;
+                userForm.style.display = 'none';
+                userForm.reset();
+                userInfo.style.display = 'none';
+                welcomeMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                proceedBtn.style.display = 'none';
+                logoutBtn.style.display = 'none';
+                connectionError.style.display = 'none';
+                proceedBtn.disabled = false;
+                proceedBtn.innerHTML = 'Proceed to Portal';
+                currentUser = null;
+                updateStepIndicator(1);
+            }
         });
     </script>
 </body>
