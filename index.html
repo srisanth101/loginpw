@@ -421,6 +421,137 @@
             display: none;
         }
 
+        .video-container {
+            margin: 20px 0;
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .video-instructions {
+            text-align: center;
+            margin-top: 15px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .payment-note {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+            border-left: 4px solid #6366f1;
+            display: none;
+        }
+
+        .payment-note h3 {
+            color: #6366f1;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .payment-note p {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Confirmation Popup Styles */
+        .confirmation-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            display: none;
+        }
+
+        .confirmation-content {
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .confirmation-icon {
+            font-size: 48px;
+            color: #f59e0b;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #f8fafc;
+        }
+
+        .confirmation-message {
+            color: #cbd5e1;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .confirmation-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .confirmation-btn.cancel {
+            background: #475569;
+            color: white;
+        }
+
+        .confirmation-btn.confirm {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .confirmation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -484,6 +615,15 @@
                 padding: 80px 15px 20px;
                 max-width: 100%;
             }
+            
+            .confirmation-content {
+                padding: 20px 15px;
+            }
+            
+            .confirmation-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
 
         @media (max-width: 350px) {
@@ -535,6 +675,8 @@
                 <div class="step">2</div>
                 <div class="step-line"></div>
                 <div class="step">3</div>
+                <div class="step-line"></div>
+                <div class="step">4</div>
             </div>
 
             <form id="access-key-form">
@@ -605,6 +747,22 @@
                 </div>
             </div>
 
+            <div class="video-container" id="video-container">
+                <div class="video-wrapper">
+                    <iframe id="tutorial-video" src="https://www.youtube.com/embed/57KetBnOvJY" title="Tutorial Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-instructions">
+                    <p>Please watch the tutorial video before proceeding to the portal</p>
+                </div>
+                <div class="payment-note" id="payment-note">
+                    <h3>Important Note</h3>
+                    <p>After watching the video, you'll be redirected to the portal where you can access the content. Please ensure you've completed any necessary steps before proceeding.</p>
+                </div>
+                <button class="btn" id="video-proceed-btn" style="margin-top: 15px;">
+                    I've Watched the Video - Proceed to Portal
+                </button>
+            </div>
+
             <div id="welcome-message" class="welcome-message">
                 Welcome, <span id="user-name-display"></span>!
             </div>
@@ -629,6 +787,21 @@
 
             <div class="footer">
                 Design by: K.G.Srisanth
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div class="confirmation-popup" id="confirmation-popup">
+        <div class="confirmation-content">
+            <div class="confirmation-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h3 class="confirmation-title">Confirm Proceed to Portal</h3>
+            <p class="confirmation-message">Are you sure you want to proceed to the portal? Please make sure you have watched the tutorial video and completed any necessary payment steps.</p>
+            <div class="confirmation-buttons">
+                <button class="confirmation-btn cancel" id="cancel-proceed">Cancel</button>
+                <button class="confirmation-btn confirm" id="confirm-proceed">Yes, Proceed</button>
             </div>
         </div>
     </div>
@@ -662,50 +835,58 @@
             const loadingOverlay = document.getElementById('loading-overlay');
             const connectionError = document.getElementById('connection-error');
             const retryBtn = document.getElementById('retry-btn');
+            const videoContainer = document.getElementById('video-container');
+            const videoProceedBtn = document.getElementById('video-proceed-btn');
+            const paymentNote = document.getElementById('payment-note');
             const steps = document.querySelectorAll('.step');
             const stepLines = document.querySelectorAll('.step-line');
+            
+            // Confirmation popup elements
+            const confirmationPopup = document.getElementById('confirmation-popup');
+            const cancelProceedBtn = document.getElementById('cancel-proceed');
+            const confirmProceedBtn = document.getElementById('confirm-proceed');
             
             // Access key
             const accessKey = "kvmlk11a";
             
             // Define allowed users
             const allowedUsers = [
-               { name: "Akanksha", id: "SH2503" },
-{ name: "Geethika", id: "SH2505" },
-{ name: "Preeti Kumari Meena", id: "SH2506" },
-{ name: "Jeevan", id: "SH2507" },
-{ name: "Sai Tejaswini", id: "SH2508" },
-{ name: "Goshitha", id: "SH2509" },
-{ name: "Pujitha", id: "SH2510" },
-{ name: "Sowjanya", id: "SH2511" },
-{ name: "Moulisri", id: "SH2512" },
-{ name: "Sai Sri", id: "SH2513" },
-{ name: "Durga", id: "SH2514" },
-{ name: "Amrutha", id: "SH2515" },
-{ name: "Sai Eswari", id: "SH2516" },
-{ name: "Manasa", id: "SH2517" },
-{ name: "Pranathi", id: "SH2518" },
-{ name: "Depika", id: "SH2519" },
-{ name: "Nidhi", id: "SH2520" },
-{ name: "Gethika Pri", id: "SH2521" },
-{ name: "Vishal", id: "SH2522" },
-{ name: "Siddu", id: "SH2523" },
-{ name: "Sriram", id: "SH2524" },
-{ name: "Jai Shankar", id: "SH2525" },
-{ name: "Akshant", id: "SH2526" },
-{ name: "Srisanth", id: "SH2527" },
-{ name: "Adhi Vishnu", id: "SH2528" },
-{ name: "Charan", id: "SH2529" },
-{ name: "Ratheesh", id: "SH2530" },
-{ name: "Sridhar", id: "SH2531" },
-{ name: "Charan Kiran", id: "SH2532" },
-{ name: "Durga Kumar", id: "SH2533" },
-{ name: "Mahadev", id: "SH2534" },
-{ name: "Bharat", id: "SH2535" },
-{ name: "Kurma Jnan", id: "SH2536" },
-{ name: "Neeraj", id: "SH2537" },
-{ name: "Aaron", id: "SH2538" },
-{ name: "N Karthik", id: "SH2539" }
+                { name: "Akanksha", id: "SH2503" },
+                { name: "Geethika", id: "SH2505" },
+                { name: "Preeti Kumari Meena", id: "SH2506" },
+                { name: "Jeevan", id: "SH2507" },
+                { name: "Sai Tejaswini", id: "SH2508" },
+                { name: "Goshitha", id: "SH2509" },
+                { name: "Pujitha", id: "SH2510" },
+                { name: "Sowjanya", id: "SH2511" },
+                { name: "Moulisri", id: "SH2512" },
+                { name: "Sai Sri", id: "SH2513" },
+                { name: "Durga", id: "SH2514" },
+                { name: "Amrutha", id: "SH2515" },
+                { name: "Sai Eswari", id: "SH2516" },
+                { name: "Manasa", id: "SH2517" },
+                { name: "Pranathi", id: "SH2518" },
+                { name: "Depika", id: "SH2519" },
+                { name: "Nidhi", id: "SH2520" },
+                { name: "Gethika Pri", id: "SH2521" },
+                { name: "Vishal", id: "SH2522" },
+                { name: "Siddu", id: "SH2523" },
+                { name: "Sriram", id: "SH2524" },
+                { name: "Jai Shankar", id: "SH2525" },
+                { name: "Akshant", id: "SH2526" },
+                { name: "Srisanth", id: "SH2527" },
+                { name: "Adhi Vishnu", id: "SH2528" },
+                { name: "Charan", id: "SH2529" },
+                { name: "Ratheesh", id: "SH2530" },
+                { name: "Sridhar", id: "SH2531" },
+                { name: "Charan Kiran", id: "SH2532" },
+                { name: "Durga Kumar", id: "SH2533" },
+                { name: "Mahadev", id: "SH2534" },
+                { name: "Bharat", id: "SH2535" },
+                { name: "Kurma Jnan", id: "SH2536" },
+                { name: "Neeraj", id: "SH2537" },
+                { name: "Aaron", id: "SH2538" },
+                { name: "N Karthik", id: "SH2539" }
             ];
             
             let currentUser = null;
@@ -714,7 +895,19 @@
             
             // Check if user is already logged in
             if (localStorage.getItem('isLoggedIn') === 'true') {
-                redirectToPortal();
+                // User is logged in, automatically redirect to portal
+                const userName = localStorage.getItem('userName');
+                const userId = localStorage.getItem('userId');
+                
+                if (userName && userId) {
+                    currentUser = { name: userName, id: userId };
+                    // Show loading screen and redirect to portal
+                    loginContainer.style.display = 'none';
+                    loadingOverlay.style.display = 'flex';
+                    setTimeout(() => {
+                        openPortal();
+                    }, 1000);
+                }
             }
             
             // Populate user select dropdown
@@ -777,17 +970,10 @@
                         id: userId
                     };
                     
-                    // Show user info and proceed button
+                    // Show video step instead of directly proceeding to portal
                     userForm.style.display = 'none';
-                    userInfo.style.display = 'block';
-                    displayName.textContent = currentUser.name;
-                    displayUserId.textContent = currentUser.id;
-                    proceedBtn.style.display = 'block';
-                    logoutBtn.style.display = 'block';
-                    header.style.display = 'flex';
-                    welcomeMessage.style.display = 'block';
-                    userNameDisplay.textContent = currentUser.name;
-                    successMessage.style.display = 'block';
+                    videoContainer.style.display = 'block';
+                    paymentNote.style.display = 'block';
                     updateStepIndicator(3);
                 } else {
                     // Show error message
@@ -795,8 +981,41 @@
                 }
             });
             
-            // Handle proceed button
+            // Handle video proceed button
+            videoProceedBtn.addEventListener('click', function() {
+                // Show user info and proceed button
+                videoContainer.style.display = 'none';
+                userInfo.style.display = 'block';
+                displayName.textContent = currentUser.name;
+                displayUserId.textContent = currentUser.id;
+                proceedBtn.style.display = 'block';
+                logoutBtn.style.display = 'block';
+                header.style.display = 'flex';
+                welcomeMessage.style.display = 'block';
+                userNameDisplay.textContent = currentUser.name;
+                successMessage.style.display = 'block';
+                updateStepIndicator(4);
+                
+                // Set login status in localStorage
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userName', currentUser.name);
+                localStorage.setItem('userId', currentUser.id);
+            });
+            
+            // Handle proceed button - Show confirmation popup
             proceedBtn.addEventListener('click', function() {
+                // Show confirmation popup instead of directly proceeding
+                confirmationPopup.style.display = 'flex';
+            });
+            
+            // Handle cancel button in confirmation popup
+            cancelProceedBtn.addEventListener('click', function() {
+                confirmationPopup.style.display = 'none';
+            });
+            
+            // Handle confirm button in confirmation popup
+            confirmProceedBtn.addEventListener('click', function() {
+                confirmationPopup.style.display = 'none';
                 proceedBtn.disabled = true;
                 proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
                 
@@ -808,11 +1027,6 @@
             function redirectToPortal() {
                 // Show loading overlay
                 loadingOverlay.style.display = 'flex';
-                
-                // Set login status in localStorage
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userName', currentUser.name);
-                localStorage.setItem('userId', currentUser.id);
                 
                 // Try to open the portal directly
                 openPortal();
@@ -926,11 +1140,13 @@
                 userForm.style.display = 'none';
                 userForm.reset();
                 userInfo.style.display = 'none';
+                videoContainer.style.display = 'none';
                 welcomeMessage.style.display = 'none';
                 successMessage.style.display = 'none';
                 proceedBtn.style.display = 'none';
                 logoutBtn.style.display = 'none';
                 connectionError.style.display = 'none';
+                confirmationPopup.style.display = 'none';
                 proceedBtn.disabled = false;
                 proceedBtn.innerHTML = 'Proceed to Portal';
                 currentUser = null;
@@ -940,3 +1156,5 @@
     </script>
 </body>
 </html>
+
+all good but in this code the pop up is in bloked so ask to permission ok please
